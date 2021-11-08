@@ -7,4 +7,5 @@ set -e
    exit 1
  fi
 
-node gh-repo-view.js $@
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+node $SCRIPT_DIR/gh-repo-view.js "$@"
