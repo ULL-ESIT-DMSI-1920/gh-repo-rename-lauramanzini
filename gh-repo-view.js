@@ -1,4 +1,8 @@
-#! librerias que son muy util
+#!/usr/bin/env node
+
+/*
+Aqui ponemos comentarios
+*/
 const ins = require("util").inspect;
 const deb = (...args) => {
   console.log(ins(...args, { depth: null }));
@@ -7,9 +11,9 @@ const deb = (...args) => {
 const fs = require("fs");
 const shell = require('shelljs');
 const { program } = require('commander');
-
+const { version } = require("./package.json")
 program
-  .version('0.1.1')
+  .version(version)
   .option('-r, --repo <type>', 'output extra debugging')
   .option('-o, --org <type>', 'small pizza size')
 
