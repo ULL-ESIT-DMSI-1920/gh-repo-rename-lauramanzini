@@ -11,13 +11,14 @@ const deb = (...args) => {
 const fs = require("fs");
 const shell = require('shelljs');
 const { program } = require('commander');
+const { args } = program;
 const { version } = require("./package.json")
 program
   .version(version)
   .option('-r, --repo <type>', 'output extra debugging')
   .option('-o, --org <type>', 'small pizza size')
 
-program.parse(process.argv);
+program.parse(`process.argv = ${process.argv}`);
 
 const options = program.opts();
 
@@ -25,7 +26,7 @@ const options = program.opts();
 if (options.repo) console.log(options.repo);
 if (options.org) console.log(options.org);
 
-console.log(`program.args = ${deb(program.args)}`)
+console.log(`program.args = ${deb(args)}`)
 console.log("It is working")
 
 // comprobar que git y gh están instalados
@@ -39,8 +40,8 @@ if (!shell.which('gh')) {
   shell.exit(1);
 }
 
-const org = options.org;
-if (!org) {
-  if (program.args.length < 2) program.help()
-
+const {org, repo }  = options;
+if (!org || !repo) {
+  if (args.length < 2) program.help()
 }
+if (org && repo && args.length < 1)  program.help();
