@@ -13,12 +13,13 @@ const shell = require('shelljs');
 const { program } = require('commander');
 const { args } = program;
 const { version } = require("./package.json")
+
 program
   .version(version)
-  .option('-r, --repo <type>', 'output extra debugging')
-  .option('-o, --org <type>', 'small pizza size')
+  .option('-r, --repo <reponame>', 'specifies the repo')
+  .option('-o, --org <organization>', 'specifies the organization')
 
-program.parse(`process.argv = ${process.argv}`);
+program.parse(process.argv);
 
 const options = program.opts();
 
@@ -26,7 +27,7 @@ const options = program.opts();
 if (options.repo) console.log(options.repo);
 if (options.org) console.log(options.org);
 
-console.log(`program.args = ${deb(args)}`)
+console.log(`program.args = ${program.args}`)
 console.log("It is working")
 
 // comprobar que git y gh están instalados
