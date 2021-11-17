@@ -4,11 +4,8 @@
 Aqui ponemos comentarios
 */
 const ins = require("util").inspect;
-const deb = (...args) => {
-  console.log(ins(...args, { depth: null }));
-};
 
-const fs = require("fs");
+// const fs = require("fs"); no estamos utilizando este package
 const shell = require('shelljs');
 const { program } = require('commander');
 const { args } = program;
@@ -17,16 +14,21 @@ const { version } = require("./package.json")
 
 program
   .version(version)
-  .option('-r, --repo <reponame>', 'specifies the repo')
-  .option('-o, --org <organization>', 'specifies the organization')
+  .option('-r, --repo <reponame>', 'repo')
+  .option('-o, --org <organization>', 'organization')
+  .option('-n, --name <name>', 'name')
 
 program.parse(process.argv);
 
-let {org , repo } = program.opts();
+let originalName = program.opts().name
+
+let {org , repo, name } = program.opts(); // de esta manera estoy creando ALIAS 
+
+if(!org || !repo || !name) program.help()
 
 if (repo) console.log(`repo = ${repo}`);
 if (org) console.log(`org = ${org}`);
-console.log(`program.args = ${program.args}`)
+if (name) console.log(`program.args = ${name}`)
 
 // comprobar que git y gh están instalados
 if (!shell.which('git')) {
@@ -39,26 +41,12 @@ if (!shell.which('gh')) {
   shell.exit(1);
 }
 
-if(program.args.length < 1) program.help();
-
-let newName;
-
-if(!newName) newName = args[0]
-
-if(!org || !repo || !newName) program.help()
-
-if (!org) {
-  [org, repo] = args[0].split("/");
-  console.log(`org and repo ${org} ${repo}`);
-  newName = args[1]
-  console.log(`newName = ${newName}`)
-  program.help()
-}
-
 // execute command 
-let r = shell.exec(`gh api -X PATCH "/repos/${org}/${repo}" -F name=${newName} | jq .[].name`,
-{silent:false})
+let r = shell.exec(`gh api -X PATCH "/repos/${org}/${repo}" -f name=${newName}`, {silent: true})
 
-console.log(`stdout= ${r.stdout}`)
-console.log(`stderr= ${r.stderr}`)
+r = JSON.parse(r.stdout)
+
+console.log(`The repo has been renamed to ${r.full_name}`)
+
+
 

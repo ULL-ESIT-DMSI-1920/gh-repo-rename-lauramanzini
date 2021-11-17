@@ -4,8 +4,11 @@
   "description": "",
   "main": "gh-repo-view.js",
   "scripts": {
-    "start": "gh-repo-view.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "create-prueba": "gh create-repo prueba ULL-ESIT-DMSI-1920",
+    "list-prueba": "gh submodule-add -s prueba -o ULL-ESIT-DMSI-1920 -n",
+    "test": "./gh-repo-rename-lauramanzini -o ULL-ESIT-DMSI-1920 -r prueba -n prueba-funciona; npm run list-prueba",
+    "back": "/gh-repo-rename-lauramanzini -o ULL-ESIT-DMSI-1920 -r prueba-funciona -n prueba-funciona",
+    "start": "node gh-repo-rename-lauramanzini.js"
   },
   "keywords": [],
   "author": "",
