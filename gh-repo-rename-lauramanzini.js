@@ -14,7 +14,7 @@ program
   .version(version)
   .option('-r, --repo <reponame>', 'repo')
   .option('-o, --org <organization>', 'organization')
-  .option('-n, --name <name>', 'name')
+  .option('-n, --name <name>', 'name');
 
 program.parse(process.argv);
 
@@ -25,11 +25,11 @@ let originalName = `${program.opts().name}`;
 
 let {org , repo, name } = program.opts(); // de esta manera estoy creando ALIAS 
 
-if(!org || !repo || !name) program.help()
+if(!org || !repo || !name) program.help();
 
 if (repo) console.log(`repo = ${repo}`);
 if (org) console.log(`org = ${org}`);
-if (name) console.log(`program.args = ${name}`)
+if (name) console.log(`program.args = ${name}`);
 
 // comprobar que git y gh están instalados
 if (!shell.which('git')) {
@@ -43,11 +43,11 @@ if (!shell.which('gh')) {
 }
 
 // execute command 
-let r = shell.exec(`gh api -X PATCH /repos/${org}/${repo} -f name=${name}`, {silent: true})
+let r = shell.exec(`gh api -X PATCH /repos/${org}/${repo} -f name=${name}`, {silent: true});
 
-r = JSON.parse(r.stdout)
+r = JSON.parse(r.stdout);
 
-console.log(`The repo has been renamed to ${r.full_name}`)
+console.log(`The repo has been renamed to ${r.full_name}`);
 
 
 
