@@ -5,11 +5,9 @@ Aqui ponemos comentarios
 */
 const ins = require("util").inspect;
 
-// const fs = require("fs"); no estamos utilizando este package
 const shell = require('shelljs');
-const { program } = require('commander');
-const { args } = program;
-
+const { Command } = require('commander');
+const program = new Command();
 const { version } = require("./package.json")
 
 program
@@ -20,7 +18,10 @@ program
 
 program.parse(process.argv);
 
-let originalName = program.opts().name
+let args = program.args;
+debugger;
+
+let originalName = `${program.opts().name}`;
 
 let {org , repo, name } = program.opts(); // de esta manera estoy creando ALIAS 
 
@@ -42,7 +43,7 @@ if (!shell.which('gh')) {
 }
 
 // execute command 
-let r = shell.exec(`gh api -X PATCH "/repos/${org}/${repo}" -f name=${newName}`, {silent: true})
+let r = shell.exec(`gh api -X PATCH /repos/${org}/${repo} -f name=${name}`, {silent: true})
 
 r = JSON.parse(r.stdout)
 
