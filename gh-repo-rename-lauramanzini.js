@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-/*
-Aqui ponemos comentarios
-*/
 const ins = require("util").inspect;
 
 const shell = require('shelljs');
@@ -23,7 +20,7 @@ debugger;
 
 let originalName = `${program.opts().name}`;
 
-let {org , repo, name } = program.opts(); // de esta manera estoy creando ALIAS 
+let {org , repo, name } = program.opts();
 
 if(!org || !repo || !name) program.help();
 
@@ -31,7 +28,7 @@ if (repo) console.log(`repo = ${repo}`);
 if (org) console.log(`org = ${org}`);
 if (name) console.log(`program.args = ${name}`);
 
-// comprobar que git y gh están instalados
+// Comprobar que git y gh están instalados
 if (!shell.which('git')) {
   shell.echo('Sorry, this script requires git');
   shell.exit(1);
@@ -42,7 +39,7 @@ if (!shell.which('gh')) {
   shell.exit(1);
 }
 
-// execute command 
+// Execute command 
 let r = shell.exec(`gh api -X PATCH /repos/${org}/${repo} -f name=${name}`, {silent: true});
 
 r = JSON.parse(r.stdout);
